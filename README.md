@@ -157,14 +157,6 @@ For a detailed guide, tutorials, and a full API reference, please see our docume
 
 <!-- TODO: Create documentation (e.g., using Sphinx/Read the Docs) and replace the URL. -->
 
-## 🤝 Contributing
-
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-Please see our [**Contributing Guidelines**](CONTRIBUTING.md) for details on how to set up your development environment, run tests, and submit a pull request.
-
-<!-- TODO: Create a CONTRIBUTING.md file. -->
-
 ## 📜 License
 
 This project is licensed under the [TODO: Your License Name, e.g., MIT] License - see the [LICENSE](LICENSE) file for details.
