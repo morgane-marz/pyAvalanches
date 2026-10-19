@@ -1,9 +1,7 @@
-# pyAvalanches
-
 <!-- TODO: Optional - Add a logo here if you have one -->
-<!-- <p align="center">
-  <img src="path/to/your/logo.png" width="300">
-</p> -->
+<p align="center">
+  <img src="images/avalanche_logo.png" width="300">
+</p>
 
 <p align="center">
   <!-- TODO: Add badges. Replace `your-username/pyAvalanches` with your actual repo path. -->
@@ -12,6 +10,8 @@
   <a href="https://your-docs-url.readthedocs.io/"><img src="https://readthedocs.org/projects/your-docs-url/badge/?version=latest" alt="Documentation Status"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
 </p>
+
+# pyAvalanches
 
 **pyAvalanches** is a Python library for detecting, analyzing, and characterizing neuronal avalanches — cascades of activity that propagate through neural networks and exhibit scale-free dynamics.
 
@@ -65,7 +65,7 @@ import numpy as np
 from pyAvalanches.avalanches import AvalanchePipeline
 from pyAvalanches.transition_matrices import ATMPipeline
 from pyAvalanches.connectivity_metrics import NetworkMetricsPipeline
-from pyAvalanches.subject_group_results_new import Subject
+from pyAvalanches.subject_group_results import Subject
 from pyAvalanches.output import generate_report
 
 # 1. Load or generate your data (e.g., 3 trials, 4 channels, 2 seconds at 256 Hz) and metadata
