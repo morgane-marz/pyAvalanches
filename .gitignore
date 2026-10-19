@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+/docs/build
+/docs/source/generated
+/docs/source/auto_examples
+/examples/results
