@@ -156,30 +156,35 @@ This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICE
 <!-- TODO: Create a LICENSE file (e.g., by choosing a license on GitHub). -->
 
 
-<!-- ## 🎓 Citation
+## 🎓 Citation
 
-If you use `pyAvalanches` in your research, please cite it.
+If you use `pyAvalanches` in your research, please cite the accompanying paper (preprint):
 
-[TODO: Add a citation for your paper or a Zenodo DOI for the software.]
+>Marzulli, M., Angiolelli, A., Mannino, C., Demuru, M., Sorrentino, P., & Corsi, M. C. (2026). pyAvalanches: A Python Package 
+>for Analyzing Spatiotemporal Propagation in Neuronal Avalanches. arXiv preprint arXiv:2609.11530.
 
-**Paper:**
+
 ```bibtex
-@article{your_paper_2023,
-  title={pyAvalanches: A Python Package for Analyzing Spatiotemporal
-          Propagation in Neuronal Avalanches},
-  author={Your Name, A. and Co-author, B. C. D},
-  journal={Journal of Open Source Software},
-  year={2023},
-  volume={X},
-  number={Y},
-  pages={Z},
-  doi={...}
+@article{marzulli2026pyavalanches,
+  title={pyAvalanches: A Python Package for Analyzing Spatiotemporal Propagation in Neuronal Avalanches},
+  author={Marzulli, M and Angiolelli, A and Mannino, C and Demuru, M and Sorrentino, P and Corsi, M-C},
+  journal={arXiv preprint arXiv:2609.11530},
+  year={2026}
 }
 ```
 
-**Software:**
-```
-[Your Name]. (2023). pyAvalanches (Version X.Y.Z) [Computer software]. https://doi.org/[Your Zenodo DOI]
-```
+Note: The final paper is currently under review. This entry will be updated with the
+full reference and DOI upon publication.
 
--->
+> Marzulli, M., Angiolelli, M., Mannino, C., Demuru, M., Sorrentino, P. & Corsi, M.C. *pyAvalanches: A Python Package for Analyzing
+> Spatiotemporal Propagation in Neuronal Avalanches*. **Manuscript under review** (2026).
+
+```bibtex
+@unpublished{marzulli2025pyavalanches,
+  title  = {pyAvalanches: A Python Package for Analyzing Spatiotemporal
+            Propagation in Neuronal Avalanches},
+  author = {Marzulli, M and Angiolelli, A and Mannino, C and Demuru, M and Sorrentino, P and Corsi, M-C},
+  year   = {2026},
+  note   = {Manuscript submitted for publication}
+}
+```
