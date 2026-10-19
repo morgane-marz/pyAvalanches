@@ -5,15 +5,15 @@
 
 <p align="center">
   <!-- TODO: Add badges. Replace `your-username/pyAvalanches` with your actual repo path. -->
-  <a href="https://pypi.org/project/pyAvalanches/"><img src="https://img.shields.io/pypi/v/pyAvalanches.svg" alt="PyPI"></a>
+  <a href="https://test.pypi.org/project/pyAvalanches/"><img src="https://img.shields.io/pypi/v/pyAvalanches.svg?pypiBaseUrl=https://test.pypi.org&amp;label=TestPyPI" alt="TestPyPI"></a>
   <a href="https://github.com/your-username/pyAvalanches/actions"><img src="https://github.com/your-username/pyAvalanches/actions/workflows/ci.yml/badge.svg" alt="Build Status"></a>
   <a href="https://your-docs-url.readthedocs.io/"><img src="https://readthedocs.org/projects/your-docs-url/badge/?version=latest" alt="Documentation Status"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSD_3--Clause-blue.svg" alt="License"></a>
 </p>
 
 # pyAvalanches
 
-**pyAvalanches** is a Python library for detecting, analyzing, and characterizing neuronal avalanches — cascades of activity that propagate through neural networks and exhibit scale-free dynamics.
+**pyAvalanches** is a Python library for detecting, analyzing, and characterizing neuronal avalanches, cascades of activity that propagate through neural networks and exhibit scale-free dynamics.
 
 ---
 
@@ -42,18 +42,10 @@ This project is under active development. The API may change, and new features a
 
 ## 🔧 Installation
 
-You can install `pyAvalanches` directly from PyPI:
+You can install `pyAvalanches` directly from TestPyPI:
 
 ```bash
 pip install pyavalanches
-```
-
-To install the latest development version from the source, clone this repository and install in editable mode:
-
-```bash
-git clone https://github.com/your-username/pyAvalanches.git
-cd pyAvalanches
-pip install -e .
 ```
 
 ## 🚀 Quick Start
@@ -159,11 +151,12 @@ For a detailed guide, tutorials, and a full API reference, please see our docume
 
 ## 📜 License
 
-This project is licensed under the [TODO: Your License Name, e.g., MIT] License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICENSE) file for details.
 
 <!-- TODO: Create a LICENSE file (e.g., by choosing a license on GitHub). -->
 
-## 🎓 Citation
+
+<!-- ## 🎓 Citation
 
 If you use `pyAvalanches` in your research, please cite it.
 
@@ -172,7 +165,8 @@ If you use `pyAvalanches` in your research, please cite it.
 **Paper:**
 ```bibtex
 @article{your_paper_2023,
-  title={pyAvalanches: A Python package for neuronal avalanche analysis},
+  title={pyAvalanches: A Python Package for Analyzing Spatiotemporal
+          Propagation in Neuronal Avalanches},
   author={Your Name, A. and Co-author, B. C.},
   journal={Journal of Open Source Software},
   year={2023},
@@ -187,4 +181,5 @@ If you use `pyAvalanches` in your research, please cite it.
 ```
 [Your Name]. (2023). pyAvalanches (Version X.Y.Z) [Computer software]. https://doi.org/[Your Zenodo DOI]
 ```
-```
+
+-->
