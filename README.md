@@ -45,7 +45,7 @@ This project is under active development. The API may change, and new features a
 You can install `pyAvalanches` directly from TestPyPI:
 
 ```bash
-pip install -i https://test.pypi.org/simple/ pyAvalanches```
+pip install -i https://test.pypi.org/simple/ pyAvalanches
 ```
 
 ## 🚀 Quick Start
