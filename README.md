@@ -167,7 +167,7 @@ If you use `pyAvalanches` in your research, please cite it.
 @article{your_paper_2023,
   title={pyAvalanches: A Python Package for Analyzing Spatiotemporal
           Propagation in Neuronal Avalanches},
-  author={Your Name, A. and Co-author, B. C.},
+  author={Your Name, A. and Co-author, B. C. D},
   journal={Journal of Open Source Software},
   year={2023},
   volume={X},
