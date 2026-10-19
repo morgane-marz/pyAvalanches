@@ -45,7 +45,7 @@ This project is under active development. The API may change, and new features a
 You can install `pyAvalanches` directly from TestPyPI:
 
 ```bash
-pip install pyavalanches
+pip install -i https://test.pypi.org/simple/ pyAvalanches```
 ```
 
 ## 🚀 Quick Start
@@ -83,7 +83,7 @@ input_dict = {
 #    - Mininum duration of an avalanche is 2 time points
 
 avalanche_pipeline = AvalanchePipeline(
-    z_score_by_trial=True,
+    z_scoring="by_trial",
     threshold_method='std',
     threshold=1.5,
     min_duration=2)

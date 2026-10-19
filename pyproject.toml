@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pyAvalanches"
-version = "0.1.0"
+version = "0.1.2"
 description = "A Python library for detecting, analyzing, and characterizing neuronal avalanches."
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -25,7 +25,7 @@ authors = [
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: BSD 3-Clause License",
+    "License :: OSI Approved :: BSD License",
     "Natural Language :: English",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
@@ -51,7 +51,7 @@ dependencies = [
 Homepage = "https://github.com/morgane-marz/pyAvalanches"
 Documentation = "https://pyavalanches.readthedocs.io/"
 Repository = "https://github.com/morgane-marz/pyAvalanches"
-"Bug Tracker" = "https://github.com/morgane-marz/pyAvalanches/issues"
+
 
 [project.optional-dependencies]
 test = [

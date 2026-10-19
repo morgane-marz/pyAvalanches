@@ -1,5 +1,5 @@
 bctpy==0.6.1
-matplotlib==3.11.1
+matplotlib>=3.10.0
 mne==1.12.1
 networkx==3.2.1
 numpy==2.5.1
