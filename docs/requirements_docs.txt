@@ -1,0 +1,12 @@
+sphinx>=8.1,<9
+sphinx-rtd-theme>=3.0
+sphinx-gallery>=0.18
+bctpy==0.6.1
+matplotlib>=3.10.0
+mne==1.12.1
+networkx==3.2.1
+numpy==2.5.1
+pandas==3.0.5
+scikit_learn==1.9.0
+scipy==1.18.0
+seaborn==0.13.2
