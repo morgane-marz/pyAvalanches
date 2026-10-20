@@ -32,6 +32,7 @@ available directly through :func:`mne.datasets.eegbci.load_data`.
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+
 from mne import Epochs, pick_types
 from mne.channels import make_standard_montage
 from mne.datasets import eegbci
@@ -256,14 +257,17 @@ plot_subject_atm_heatmap(subject)
 # available results: summary tables, distributions, and
 # ATM heatmaps.
 
-report = generate_report(
-    results=subject,
-    out_path='./results',
-    prefix='subj_eegbci',
-    overwrite=True,
-)
-
-print("Report saved to ./results/subj_eegbci_report.html")
+#. tip::
+#
+#    .. code-block:: python
+#
+#       from pyAvalanches.output import generate_report
+#
+#       generate_report(
+#           subject=subject,
+#           out_path=out_dir,
+#           fname="subj_eegbci_report.html",
+#       )
 
 # %%
 # 12. Export Results to DataFrames

@@ -63,9 +63,9 @@ TASK = "eyesclosed"
 SUBDIR = "derivatives"
 
 SUBJECTS = [
-    "001", "002"   # AD
-    "037", "038"  # CN
-    "066", "067"   # FTD
+    "001", "002",   # AD
+    "037", "038",  # CN
+    "066", "067",   # FTD
 ]
 
 # Cache under ~/mne_data (or $MNE_DATA if you've configured one)
@@ -271,22 +271,27 @@ print(df_metrics.head())
 #       df_metrics.to_csv('./results/network_metrics.csv', index=False)
 
 # %%
-# 6. Generate Group Report
-# --------------------------
-# Finally, we generate a comprehensive HTML report that includes
-# all subjects and conditions. The report adapts automatically
-# to the :class:`~pyAvalanches.subject_group_results.GroupResults`
-# input, producing per-subject panels alongside group-level
-# summaries.
-
-report = generate_report(
-    results=group_results,
-    out_path='./results',
-    prefix='group_openneuro',
-    overwrite=True,
-)
-
-print("Group report saved to ./results/group_openneuro_report.html")
+# Saving Your Results
+# -------------------
+#
+# All results are available on the :class:`~pyAvalanches.subject_group_results.GroupResults`
+# object. To write them to disk as CSV files, call
+# :meth:`~pyAvalanches.subject_group_results.GroupResults.save`:
+#
+# .. tip::
+#
+#    .. code-block:: python
+#
+#       from pathlib import Path
+#
+#       out_dir = Path("results")
+#       out_dir.mkdir(parents=True, exist_ok=True)
+#
+#       group_results.save(out_path=out_dir, prefix="openneuro")
+#
+#    This writes ``openneuro_group_results.csv`` (and related files)
+#    into ``out_dir``. Adjust the path to wherever you want the output.
+#
 
 # %%
 # Summary

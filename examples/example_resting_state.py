@@ -271,17 +271,21 @@ print("Results saved to ../results/")
 # - **Size distributions** — Log-log and KDE plots
 # - **Duration distributions** — Log-log and KDE plots
 # - **ATM heatmaps** — Per-epoch and mean transition matrices
-
-report = generate_report(
-    results=subject,
-    out_path='./results',
-    prefix='openneuro_rest',
-    overwrite=True,
-)
+#
+# .. tip::
+#
+#    .. code-block:: python
+#
+#       from pyAvalanches.output import generate_report
+#
+#       generate_report(
+#           subject=subject,
+#           out_path=out_dir,
+#           fname="openneuro_rest_report.html"
+#           )
 
 # %%
-# The report is saved automatically as
-# ``./results/brainstorm_rest_report.html``. Open it in your
+# The report is saved automatically; open it in your
 # browser to explore the results interactively.
 #
 #
