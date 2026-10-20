@@ -239,17 +239,17 @@ print(f"Average clustering coefficient: {float(metrics_data.avg_clustering_coeff
 # We can bundle everything into a
 # :class:`~pyAvalanches.subject_group_results.Subject` object
 # and save to disk.
-
-subject = Subject(
-    subject_id='sub_brainstorm',
-    avalanche_results=aval_results,
-    atm_results=atm_results,
-    metrics_results=metrics_results,
-)
-
-subject.save(out_path='./results', prefix='openneuro_rest')
-
-print("Results saved to ../results/")
+# .. code-block:: python
+#        subject = Subject(
+#            subject_id='sub_brainstorm',
+#            avalanche_results=aval_results,
+#            atm_results=atm_results,
+#            metrics_results=metrics_results,
+#        )
+#
+#        subject.save(out_path='./results', prefix='openneuro_rest')
+#
+#        print("Results saved to ../results/")
 
 
 # %%

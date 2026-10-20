@@ -219,6 +219,7 @@ print(f"Average clustering coefficient (epoch 1): "
 # :class:`~pyAvalanches.subject_group_results.Subject` object
 # for storage and downstream analysis.
 
+
 subject = Subject(
     subject_id='subj_eegbci',
     avalanche_results=aval_results,
@@ -226,8 +227,6 @@ subject = Subject(
     metrics_results=metrics_results,
 )
 
-subject.save(out_path='./results', prefix='subj_eegbci')
-print("Results saved to ../results/")
 
 # %%
 # 10. Visualize with Built-In Plotting Functions
