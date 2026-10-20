@@ -36,6 +36,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import mne
+import openneuro
+from pathlib import Path
 
 from pyAvalanches.dataset import plot_amplitude_distribution
 from pyAvalanches.avalanches import AvalanchePipeline, plot_avalanche_distribution
@@ -50,12 +52,19 @@ from pyAvalanches.output import generate_report, compute_summary_dataframes
 # We load a single resting-state EEG recording (eyes closed)
 # in EEGLAB ``.set`` format.
 
-# Update this path to your local download location
-data_dir = '/Users/morgane.marzulli/Downloads'
-subject_id = '001'
+
+DATA_DIR = Path(mne.get_config("MNE_DATA") or (Path.home() / "mne_data")) / "ds004504"
+TASK = "eyesclosed"
+SUBDIR = "derivatives"
+
+openneuro.download(
+    dataset="ds004504",
+    target_dir=DATA_DIR,
+    include=["derivatives/sub-001/eeg/*"],
+)
 
 raw = mne.io.read_raw_eeglab(
-    f'{data_dir}/sub-{subject_id}_task-eyesclosed_eeg.set',
+    DATA_DIR / SUBDIR / "sub-001" / "eeg" / "sub-001_task-eyesclosed_eeg.set",
     preload=True,
     verbose=False,
 )

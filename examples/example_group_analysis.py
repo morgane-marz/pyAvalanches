@@ -40,7 +40,10 @@ we select 6 subjects from 3 conditions:
 # -------
 
 import mne
+import openneuro
+import pandas as pd
 from pyAvalanches.dataset import create_dataset_from_mne
+from pathlib import Path
 from pyAvalanches.avalanches import AvalanchePipeline
 from pyAvalanches.transition_matrices import ATMPipeline
 from pyAvalanches.connectivity_metrics import NetworkMetricsPipeline
@@ -54,11 +57,46 @@ from pyAvalanches.output import plot_group_atm_heatmap, generate_report, compute
 # This labeling will be carried through the entire pipeline and used
 # in group-level plots and reports.
 
-subject_list = ['001', '002','003','004', '037', '038','039','040', '066', '067','068','069']
-subject_labels = ['AD', 'AD','AD', 'AD', 'CN', 'CN','CN', 'CN', 'FTD', 'FTD','FTD', 'FTD']
 
-# Update this path to your local download location
-data_dir = '/Users/morgane.marzulli/Downloads'
+DATASET = "ds004504"
+TASK = "eyesclosed"
+SUBDIR = "derivatives"
+
+SUBJECTS = [
+    "001", "002"   # AD
+    "037", "038"  # CN
+    "066", "067"   # FTD
+]
+
+# Cache under ~/mne_data (or $MNE_DATA if you've configured one)
+DATA_DIR = Path(mne.get_config("MNE_DATA") or (Path.home() / "mne_data")) / DATASET
+
+# Only these paths are pulled from the S3 mirror
+include = [f"{SUBDIR}/sub-{sub}/eeg/*" for sub in SUBJECTS] + ["participants.tsv"]
+
+openneuro.download(
+    dataset=DATASET,
+    target_dir=DATA_DIR,
+    include=include,
+)
+
+# %%
+# 2. Read the Group Labels from ``participants.tsv``
+# --------------------------------------------------
+# Rather than hardcoding the diagnostic labels, we read them from the
+# BIDS participants file. This keeps the example honest if the subject
+# list is ever changed.
+
+participants = pd.read_csv(DATA_DIR / "participants.tsv", sep="\t")
+participants = participants.set_index("participant_id")
+
+GROUP_MAP = {"A": "AD", "C": "CN", "F": "FTD"}
+
+subject_labels = [
+    GROUP_MAP[participants.loc[f"sub-{sub}", "Group"]] for sub in SUBJECTS
+]
+
+print(dict(zip(SUBJECTS, subject_labels)))
 
 # %%
 # 2. Run the Pipeline on Each Subject
@@ -73,19 +111,22 @@ data_dir = '/Users/morgane.marzulli/Downloads'
 
 subj_list = []
 
-for index, subject_id in enumerate(subject_list):
+for subject_id, label in zip(SUBJECTS, subject_labels):
 
-    print(f"\n{'='*50}")
-    print(f"Processing subject {subject_id} "
-          f"(condition: {subject_labels[index]})")
-    print(f"{'='*50}")
+    print(f"\n{'=' * 50}")
+    print(f"Processing subject {subject_id} (condition: {label})")
+    print(f"{'=' * 50}")
 
     # ----- Load EEG data -----
-    raw = mne.io.read_raw_eeglab(
-        f'{data_dir}/sub-{subject_id}_task-eyesclosed_eeg.set',
-        preload=True,
-        verbose=False,
+    fname = (
+            DATA_DIR
+            / SUBDIR
+            / f"sub-{subject_id}"
+            / "eeg"
+            / f"sub-{subject_id}_task-{TASK}_eeg.set"
     )
+
+    raw = mne.io.read_raw_eeglab(fname, preload=True, verbose=False)
     print(f"  Channels: {len(raw.ch_names)}")
     print(f"  Sampling rate: {raw.info['sfreq']} Hz")
     print(f"  Duration: {raw.times[-1]:.1f} s")
@@ -113,9 +154,9 @@ for index, subject_id in enumerate(subject_list):
 
     # ----- Store subject results -----
     sbj = Subject(
-        subject_id=index,
+        subject_id=subject_id,
         dataset=raw,
-        subject_label=subject_labels[index],
+        subject_label=label,
         avalanche_results=aval_results,
         atm_results=atm_results,
         metrics_results=metrics_results,

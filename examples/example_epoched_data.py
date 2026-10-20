@@ -61,7 +61,7 @@ tmin, tmax = 1.0, 4.0  # Avoid evoked responses: start 1s after cue
 subjects = 1
 runs = [6, 10, 14]     # Motor imagery: hands vs feet
 
-raw_fnames = eegbci.load_data(subjects, runs)
+raw_fnames = eegbci.load_data(subjects, runs, update_path=True)
 raw = concatenate_raws([read_raw_edf(f, preload=True) for f in raw_fnames])
 
 # Standardize channel names and set montage

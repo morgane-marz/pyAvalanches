@@ -15,7 +15,7 @@ analysis pipeline.
 
 
 Overview
-========
+==========
 
 A typical pyAvalanches workflow follows three stages, each producing its own
 result object:
@@ -121,7 +121,7 @@ treated as a single trial**.
 .. _avalanche_objects:
 
 Avalanche Objects
-=================
+==================
 
 The results of avalanches detection are stored in two nested objects.
 
@@ -337,7 +337,7 @@ and results are stored in a trial-level structure like
 :class:`~pyAvalanches.transition_matrices.TrialATM`.
 
 MetricsObj — single trial
----------------------
+---------------------------
 
 :class:`~pyAvalanches.connectivity_metrics.MetricsObj` holds the metrics
 results for **one trial**.
@@ -363,7 +363,7 @@ results for **one trial**.
    supported metrics.
 
 TrialMetric — all trials
----------------------
+--------------------------
 
 :class:`~pyAvalanches.connectivity_metrics.TrialMetrics` is the **container**
 collecting one :class:`~pyAvalanches.connectivity_metrics.MetricObj` per trial.
@@ -581,7 +581,7 @@ If you provided labels for each trial, you can process only a specific condition
    print(avalanches_task.trial_count)  # only "left" trials
 
 ATMPipeline
------------
+-------------
 
 :class:`~pyAvalanches.transition_matrices.ATMPipeline` computes Avalanche
 Transition Matrices from a :class:`~pyAvalanches.avalanches.TrialAvalanches`
@@ -955,8 +955,8 @@ Object Summary
      - :class:`~pyAvalanches.connectivity_metrics.TrialMetrics`
      - Collection of ``MetricsObj``
    * - Subject (per subject results)
-     - :class:`~pyAvalanches.subject_group_results_new.Subject`
+     - :class:`~pyAvalanches.subject_group_results.Subject`
      - Transition matrices for one trial
    * - GroupResults (all subjects)
-     - :class:`~pyAvalanches.subject_group_results_new.GroupResults`
+     - :class:`~pyAvalanches.subject_group_results.GroupResults`
      - Collection of ``Subject``
