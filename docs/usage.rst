@@ -10,7 +10,7 @@ To use pyAvalanches, first install it using pip:
 
 .. code-block:: console
 
-   (.venv) $ pip install pyAvalanches
+   (.venv) $ pip install -i https://test.pypi.org/simple/ pyAvalanches
 
 Basic Workflow
 --------------
@@ -344,7 +344,7 @@ Here is the complete workflow in a single script:
 .. tip::
 
    You can loop over multiple subjects and aggregate results using
-   :class:`~pyAvalanches.subject_group_results_new.GroupResults` for
+   :class:`~pyAvalanches.subject_group_results.GroupResults` for
    group-level statistical comparisons.
 
 .. seealso::

@@ -145,7 +145,7 @@ print("Group report saved to ./results/group_openneuro_report.html")
 
 For a detailed guide, tutorials, and a full API reference, please see our documentation at:
 
-[**your-docs-url.readthedocs.io**](https://your-docs-url.readthedocs.io)
+[**https://pyavalanches.readthedocs.io/en/latest/**](https://your-docs-url.readthedocs.io)
 
 <!-- TODO: Create documentation (e.g., using Sphinx/Read the Docs) and replace the URL. -->
 
@@ -160,14 +160,14 @@ This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICE
 
 If you use `pyAvalanches` in your research, please cite the accompanying paper (preprint):
 
->Marzulli, M., Angiolelli, A., Mannino, C., Demuru, M., Sorrentino, P., & Corsi, M. C. (2026). pyAvalanches: A Python Package 
+>Marzulli, M., Angiolelli, M., Mannino, C., Demuru, M., Sorrentino, P., & Corsi, M. C. (2026). pyAvalanches: A Python Package 
 >for Analyzing Spatiotemporal Propagation in Neuronal Avalanches. arXiv preprint arXiv:2609.11530.
 
 
 ```bibtex
 @article{marzulli2026pyavalanches,
   title={pyAvalanches: A Python Package for Analyzing Spatiotemporal Propagation in Neuronal Avalanches},
-  author={Marzulli, M and Angiolelli, A and Mannino, C and Demuru, M and Sorrentino, P and Corsi, M-C},
+  author={Marzulli, M and Angiolelli, M and Mannino, C and Demuru, M and Sorrentino, P and Corsi, M-C},
   journal={arXiv preprint arXiv:2609.11530},
   year={2026}
 }
@@ -183,7 +183,7 @@ full reference and DOI upon publication.
 @unpublished{marzulli2025pyavalanches,
   title  = {pyAvalanches: A Python Package for Analyzing Spatiotemporal
             Propagation in Neuronal Avalanches},
-  author = {Marzulli, M and Angiolelli, A and Mannino, C and Demuru, M and Sorrentino, P and Corsi, M-C},
+  author = {Marzulli, M and Angiolelli, M and Mannino, C and Demuru, M and Sorrentino, P and Corsi, M-C},
   year   = {2026},
   note   = {Manuscript submitted for publication}
 }

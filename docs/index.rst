@@ -28,14 +28,53 @@ Key Features
 - **Automated Reporting**: Generate publication-ready HTML reports for subject and group-level analyses and CSV summaries for easy data sharing and statistical follow-up
 - **ML-Ready**: Scikit-learn compatible transformers for seamless integration into classification and analysis pipelines
 
-Quick Start
+Citation
 -----------
+
+If you use ``pyAvalanches`` in your research, please cite the accompanying
+paper (preprint):
+
+   Marzulli, M., Angiolelli, M., Mannino, C., Demuru, M., Sorrentino, P., &
+   Corsi, M. C. (2026). pyAvalanches: A Python Package for Analyzing
+   Spatiotemporal Propagation in Neuronal Avalanches. arXiv preprint
+   arXiv:2609.11530.
+
+.. code-block:: bibtex
+
+   @article{marzulli2026pyavalanches,
+     title={pyAvalanches: A Python Package for Analyzing Spatiotemporal Propagation in Neuronal Avalanches},
+     author={Marzulli, M and Angiolelli, M and Mannino, C and Demuru, M and Sorrentino, P and Corsi, M-C},
+     journal={arXiv preprint arXiv:2609.11530},
+     year={2026}
+   }
+
+.. note::
+
+   The final paper is currently under review. This entry will be updated with
+   the full reference and DOI upon publication.
+
+   Marzulli, M., Angiolelli, M., Mannino, C., Demuru, M., Sorrentino, P. &
+   Corsi, M.C. *pyAvalanches: A Python Package for Analyzing Spatiotemporal
+   Propagation in Neuronal Avalanches*. **Manuscript under review** (2026).
+
+.. code-block:: bibtex
+
+   @unpublished{marzulli2025pyavalanches,
+     title  = {pyAvalanches: A Python Package for Analyzing Spatiotemporal
+               Propagation in Neuronal Avalanches},
+     author = {Marzulli, M and Angiolelli, M and Mannino, C and Demuru, M and Sorrentino, P and Corsi, M-C},
+     year   = {2026},
+     note   = {Manuscript submitted for publication}
+   }
+
+Quick Start
+------------
 
 Install the library:
 
 .. code-block:: bash
 
-   pip install pyAvalanches
+   pip install -i https://test.pypi.org/simple/ pyAvalanches
 
 And start the analysis!
 
