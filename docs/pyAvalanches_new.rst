@@ -49,7 +49,6 @@ Functions
    :nosignatures:
 
    avalanches.plot_avalanche_distribution
-   avalanches.function_name2
 
 
 .. _transition_matrices_ref:
@@ -135,8 +134,8 @@ Classes
    :template: class.rst
    :nosignatures:
 
-   subject_group_results_new.Subject
-   subject_group_results_new.GroupResults
+   subject_group_results.Subject
+   subject_group_results.GroupResults
 
 .. _output_ref:
 
