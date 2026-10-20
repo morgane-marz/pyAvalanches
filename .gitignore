@@ -1,6 +1,8 @@
 .DS_Store
 .idea
 /docs/build
+/docs/_build
 /docs/source/generated
 /docs/source/auto_examples
 /examples/results
+docs/sg_execution_times.rst
