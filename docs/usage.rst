@@ -106,7 +106,7 @@ Before detection, the data is z-scored to normalize activity across channels.
         min_size=2
         )
 
-   avalanche_results = aval_pipeline.process(example_dict)
+   avalanche_results = avalanche_pipeline.process(example_dict)
 
 .. list-table:: AvalanchePipeline Parameters
    :header-rows: 1
