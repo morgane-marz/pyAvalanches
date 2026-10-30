@@ -172,8 +172,6 @@ def make_data_dict(n_trials=3, n_channels=3, n_times=500, trial_ids=None, labels
     return {
         "data_array":    np.random.rand(n_trials, n_channels, n_times),
         "samp_freq":     250.0,
-        "fmin":          0.5,
-        "fmax":          40.0,
         "channel_names": [f"ch{i}" for i in range(n_channels)],
         "trial_labels":  DEFAULT_TRIAL_LABELS[:n_trials] if labels is None else labels,
         "trial_ids":     list(range(n_trials)) if trial_ids is None else trial_ids,
@@ -574,7 +572,7 @@ class TestGetDatasetDataframe:
         assert "channel_names" not in df.columns
 
     @pytest.mark.parametrize("renamed", [
-        "Highpass", "Lowpass", "Number of Channels/ROIs", "Time Points",
+        "Number of Channels/ROIs", "Time Points",
         "Number of Trials", "Sampling Frequency", "Trial Conditions",
     ])
     def test_columns_renamed(self, group_two_labels, renamed):
@@ -585,7 +583,7 @@ class TestGetDatasetDataframe:
     def test_no_raw_keys_remain(self, group_two_labels):
         df = group_two_labels.get_dataset_dataframe()
 
-        for raw in ["fmin", "fmax", "n_channels", "n_time_points",
+        for raw in ["n_channels", "n_time_points",
                     "n_trials", "samp_freq", "conditions"]:
             assert raw not in df.columns
 

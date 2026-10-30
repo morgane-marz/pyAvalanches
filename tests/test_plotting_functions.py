@@ -129,14 +129,6 @@ class TestInputTypes:
         with pytest.raises(KeyError, match="samp_freq"):
             call(known_dict)
 
-    def test_all_missing_keys_reported_together(self, known_dict):
-        """The error lists every missing key, not just the first."""
-        del known_dict["fmin"]
-        del known_dict["fmax"]
-
-        with pytest.raises(KeyError, match="fmax.*fmin"):
-            call(known_dict)
-
     def test_mne_raw_accepted(self):
         mne = pytest.importorskip("mne")
 

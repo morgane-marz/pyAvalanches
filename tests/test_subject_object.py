@@ -173,8 +173,6 @@ def make_data_dict(n_trials=3, n_channels=3, n_times=500, trial_ids=None, labels
     return {
         "data_array":    np.random.rand(n_trials, n_channels, n_times),
         "samp_freq":     250.0,
-        "fmin":          0.5,
-        "fmax":          40.0,
         "channel_names": [f"ch{i}" for i in range(n_channels)],
         "trial_labels":  DEFAULT_TRIAL_LABELS[:n_trials] if labels is None else labels,
         "trial_ids":     list(range(n_trials)) if trial_ids is None else trial_ids,
@@ -193,8 +191,6 @@ def make_mock_raw(n_channels=3, n_times=500, samp_freq=250.0):
     raw.ch_names = [f"ch{i}" for i in range(n_channels)]
     raw.info = {"sfreq": samp_freq,
                 "ch_names": [f"ch{i}" for i in range(n_channels)],
-                "lowpass": 35,
-                "highpass": 8
                 }
     raw.get_data.return_value = np.random.default_rng(0).standard_normal(
         (n_channels, n_times)
@@ -333,8 +329,6 @@ class TestSubjectInit:
         assert s.dataset["n_time_points"] == 500
         assert s.dataset["n_trials"] == 1
         assert s.dataset["samp_freq"] == 250.0
-        assert s.dataset["fmin"] == 8
-        assert s.dataset["fmax"] == 35
 
     def test_epoch_dataset_is_stored(self):
         ds = make_mock_epochs()
@@ -344,8 +338,6 @@ class TestSubjectInit:
         assert s.dataset["n_time_points"] == 100
         assert s.dataset["n_trials"] == 3
         assert s.dataset["samp_freq"] == 250.0
-        assert s.dataset["fmin"] == 1
-        assert s.dataset["fmax"] == 40
 
     def test_data_from_dict_is_not_stored(self):
         ds = make_data_dict()
@@ -357,7 +349,7 @@ class TestSubjectInit:
         s = Subject(subject_id="sub-01", dataset=ds)
 
         expected = {"n_channels", "n_time_points", "n_trials", "conditions",
-                    "channel_names", "samp_freq", "fmax", "fmin"}
+                    "channel_names", "samp_freq"}
         assert set(s.dataset) == expected
 
     def test_shape_derived_correctly(self):
@@ -378,13 +370,11 @@ class TestSubjectInit:
         s = Subject(subject_id="sub-01", dataset=dataset_dict)
 
         assert s.dataset["samp_freq"] == dataset_dict["samp_freq"]
-        assert s.dataset["fmin"] == dataset_dict["fmin"]
-        assert s.dataset["fmax"] == dataset_dict["fmax"]
         assert s.dataset["channel_names"] == dataset_dict["channel_names"]
 
     @pytest.mark.parametrize("missing_key", [
         "data_array", "trial_labels", "channel_names",
-        "samp_freq", "fmin", "fmax",
+        "samp_freq",
     ])
     def test_missing_key_raises_key_error(self, missing_key):
 
@@ -694,7 +684,7 @@ class TestGetDatasetDataframe:
         assert list(df.columns)[0] == "Subject ID"
 
     @pytest.mark.parametrize("renamed", [
-        "Highpass", "Lowpass", "Number of Channels/ROIs", "Time Points",
+        "Number of Channels/ROIs", "Time Points",
         "Number of Trials", "Sampling Frequency", "Trial Conditions",
     ])
     def test_columns_are_renamed(self, subject_with_dataset, renamed):
@@ -705,7 +695,7 @@ class TestGetDatasetDataframe:
         """Every raw key must have been renamed."""
         df = subject_with_dataset.get_dataset_dataframe()
 
-        for raw_key in ["fmin", "fmax", "n_channels", "n_time_points",
+        for raw_key in ["n_channels", "n_time_points",
                         "n_trials", "samp_freq", "conditions"]:
             assert raw_key not in df.columns
 
@@ -718,8 +708,6 @@ class TestGetDatasetDataframe:
         assert df["Number of Trials"].iloc[0]        == 3
         assert df["Number of Channels/ROIs"].iloc[0] == 3
         assert df["Time Points"].iloc[0]             == 500
-        assert df["Highpass"].iloc[0]                == 0.5
-        assert df["Lowpass"].iloc[0]                 == 40.0
 
     def test_conditions_cell_holds_a_set(self, subject_with_dataset):
         df = subject_with_dataset.get_dataset_dataframe()

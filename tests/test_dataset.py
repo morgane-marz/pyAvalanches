@@ -12,7 +12,7 @@ def make_data_3d(n_trials=3, n_channels=4, n_times=100, seed=42):
 
 
 def make_dataset(n_trials=3, n_channels=4, n_times=100,
-                 samp_freq=250.0, fmin=0.5, fmax=40.0,
+                 samp_freq=250.0,
                  channel_names=None, trial_labels=None, t_max=None, info=None,
                  data=None):
     """
@@ -27,8 +27,6 @@ def make_dataset(n_trials=3, n_channels=4, n_times=100,
     return Dataset(
         data=data,
         samp_freq=samp_freq,
-        fmin=fmin,
-        fmax=fmax,
         channel_names=channel_names,
         trial_labels=trial_labels,
         t_max=t_max,
@@ -56,12 +54,10 @@ class TestInit:
 
     def test_required_arguments_stored(self, dataset):
         assert dataset.samp_freq == 250.0
-        assert dataset.fmin      == 0.5
-        assert dataset.fmax      == 40.0
         assert dataset.data.shape == (3, 4, 100)
 
     def test_optional_arguments_default_to_none(self):
-        ds = Dataset(data=make_data_3d(), samp_freq=250.0, fmin=0.5, fmax=40.0)
+        ds = Dataset(data=make_data_3d(), samp_freq=250.0)
 
         assert ds.channel_names is None
         assert ds.trial_labels is None
@@ -330,61 +326,6 @@ class TestGetMeanAndStd:
 
         np.testing.assert_array_equal(dataset.data, original)
 
-class TestFilterData:
-
-    @patch(f"mne.filter.filter_data")
-    def test_data_replaced_by_filter_output(self, mock_filter, dataset):
-        expected = np.zeros_like(dataset.data)
-        mock_filter.return_value = expected
-
-        dataset._filter_data(s_freq=250.0, l_freq=1.0, h_freq=40.0)
-
-        np.testing.assert_array_equal(dataset.data, expected)
-
-    @patch(f"mne.filter.filter_data")
-    def test_arguments_forwarded_to_mne(self, mock_filter, dataset):
-        original = dataset.data
-        mock_filter.return_value = np.zeros_like(original)
-
-        dataset._filter_data(s_freq=250.0, l_freq=1.0, h_freq=40.0)
-
-        _, kw = mock_filter.call_args
-        np.testing.assert_array_equal(kw["data"], original)
-        assert kw["sfreq"] == 250.0
-        assert kw["l_freq"] == 1.0
-        assert kw["h_freq"] == 40.0
-
-    @patch(f"mne.filter.filter_data")
-    def test_extra_kwargs_passed_through(self, mock_filter, dataset):
-        mock_filter.return_value = np.zeros_like(dataset.data)
-
-        dataset._filter_data(s_freq=250.0, l_freq=1.0, h_freq=40.0,
-                            method="iir", phase="zero")
-
-        _, kw = mock_filter.call_args
-        assert kw["method"] == "iir"
-        assert kw["phase"] == "zero"
-
-    @patch(f"mne.filter.filter_data")
-    def test_freq_is_written_correctly(self, mock_filter, dataset):
-
-        mock_filter.return_value = np.zeros_like(dataset.data)
-
-        dataset._filter_data(s_freq=250.0, l_freq=40.0, h_freq=1.0)
-
-        assert dataset.fmin == 1.0
-        assert dataset.fmax == 40.0
-
-    @patch(f"mne.filter.filter_data")
-    def test_none_cutoff_leaves_attribute_unchanged(self, mock_filter, dataset):
-        """Only non-None cutoffs update the stored frequencies."""
-        mock_filter.return_value = np.zeros_like(dataset.data)
-        original_fmin = dataset.fmin
-
-        dataset._filter_data(s_freq=250.0, l_freq=1.0, h_freq=None)
-
-        assert dataset.fmin == original_fmin
-
 class TestGetBinarizedData:
 
     @pytest.fixture
@@ -470,8 +411,6 @@ class TestCreateDatasetFromMneRaw:
         ds = create_dataset_from_mne(mock_raw)
 
         assert ds.samp_freq == 250.0
-        assert ds.fmin      == 0.5      # from info['highpass']
-        assert ds.fmax      == 40.0     # from info['lowpass']
 
     def test_channel_names_copied(self, mock_raw):
         ds = create_dataset_from_mne(mock_raw)
@@ -540,8 +479,6 @@ class TestCreateDatasetFromMneEpochs:
         ds = create_dataset_from_mne(mock_epochs)
 
         assert ds.samp_freq == 250.0
-        assert ds.fmin      == 0.5
-        assert ds.fmax      == 40.0
 
     @pytest.mark.parametrize("bad_input", [
         np.zeros((3, 4, 100)),
@@ -591,8 +528,6 @@ class TestBuildDataset:
         return {
             "data_array": np.random.randn(3, 3, 50),
             "samp_freq": 250.0,
-            "fmin": 8.0,
-            "fmax": 35.0,
             "channel_names": ["ch0", "ch1", "ch2"],
             "trial_labels": [0, 1, 0],
             "t_max": None
@@ -618,7 +553,7 @@ class TestBuildDataset:
             _build_dataset(bad_input)
 
     @pytest.mark.parametrize("key", [
-        "data_array", "samp_freq", "fmin", "fmax",
+        "data_array", "samp_freq",
         "channel_names", "trial_labels", "t_max"
     ])
     def test_missing_keys_raise_key_error(self, key):
@@ -626,8 +561,6 @@ class TestBuildDataset:
         d = {
             "data_array": np.random.randn(3, 3, 50),
             "samp_freq": 250.0,
-            "fmin": 8.0,
-            "fmax": 35.0,
             "channel_names": ["ch0", "ch1", "ch2"],
             "trial_labels": [0, 1, 0],
             "t_max": None
