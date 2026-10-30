@@ -90,7 +90,6 @@ And start the analysis!
    input_data = {
        "data_array": your_data,           # 2D or 3D array
        "samp_freq": 256.0,               # sampling frequency (Hz)
-       "fmin": 1.0, "fmax": 40.0,        # filter range (Hz)
        "channel_names": ["Fp1", "Fp2", "C3", "C4"],
        "trial_labels": ["left", "right", "left"],
    }

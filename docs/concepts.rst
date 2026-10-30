@@ -489,12 +489,6 @@ are taken from ``info``, so nothing else needs to be specified:
    raw = mne.io.read_raw_fif("sub-01-raw.fif", preload=True)
    results = pipeline.process(raw)
 
-.. note::
-   Make sure the data are loaded in memory (``preload=True``) and that the
-   band-pass limits are set on the object (``raw.filter(...)`` /
-   ``epochs.info["highpass"]`` and ``["lowpass"]``), since the pipeline reads
-   the filter band from ``info``.
-
 
 If your data do not come from MNE, wrap the array in a dictionary together with
 the required metadata:
@@ -512,9 +506,6 @@ the required metadata:
    * - ``samp_freq``
      - yes
      - Sampling frequency in Hz
-   * - ``fmin`` / ``fmax``
-     - yes
-     - Filter band limits in Hz
    * - ``channel_names``
      - no
      - List of channel names or ROIs
@@ -548,8 +539,6 @@ the required metadata:
    input_data = {
        "data": data,
        "samp_freq": 250.0,
-       "fmin": 1.0,
-       "fmax": 45.0,
        "channel_names": [f"Ch{i}" for i in range(64)],
        "trial_labels": ["task"] * 20 + ["rest"] * 20,
        "t_max": None
@@ -874,8 +863,6 @@ the pipeline:
     input_data = {
         "data_array": data,
         "samp_freq": 256.0,
-        "fmin": 1.0,
-        "fmax": 40.0,
         "channel_names": ["Fp1", "Fp2", "C3", "C4"],
         "trial_labels": ["left_hand", "right_hand", "left_hand"],
         "t_max": None

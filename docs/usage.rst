@@ -68,8 +68,6 @@ to specify the recording parameters manually in a dictionary:
    example_dict = {
         "data_array": data,      # your 2D or 3D data array
         "samp_freq": 256.0,      # sampling frequency in Hz
-        "fmin": 1.0,             # lower frequency bound (Hz)
-        "fmax": 40.0,            # upper frequency bound (Hz)
         "channel_names": ["Fp1", "Fp2", "C3", "C4"],
         "trial_labels": ["left", "right", "left"],
         "t_max": None
@@ -80,12 +78,6 @@ to specify the recording parameters manually in a dictionary:
    ``data_array`` should have shape ``(n_epochs, n_channels, n_times)``
    for epoched data, or ``(n_channels, n_times)`` for continuous
    recordings.
-
-.. warning::
-
-   No filtering is applied by default. The ``fmin`` and ``fmax``
-   parameters in the constructor are **metadata only** — they do
-   not trigger any filtering.
 
 2. Detect Avalanches
 --------------------
@@ -300,8 +292,6 @@ Here is the complete workflow in a single script:
    input_data = {
         "data_array": data,      # your 2D or 3D data array
         "samp_freq": 256.0,      # sampling frequency in Hz
-        "fmin": 1.0,             # lower frequency bound (Hz)
-        "fmax": 40.0,            # upper frequency bound (Hz)
         "channel_names": ["Fp1", "Fp2", "C3", "C4"],
         "trial_labels": ["left", "right", "left"],
         "t_max": None
