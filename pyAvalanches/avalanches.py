@@ -589,8 +589,6 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
             - dict : Custom data dictionary with required keys:
                 - 'data_array' : np.ndarray of shape (n_trials, n_channels, n_timepoints)
                 - 'samp_freq' : Sampling frequency in Hz
-                - 'fmin' : Minimum frequency
-                - 'fmax' : Maximum frequency
                 - 'channel_names' : List of channel names
                 - 'trial_labels' : List of trial condition labels
                 - 't_max' : Maximum time points to upload
@@ -736,7 +734,7 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
         if not isinstance(X, np.ndarray):
             raise TypeError(f"X must be a numpy array, got {type(X)} instead")
 
-        dataset = Dataset(data=X, samp_freq=1, fmax=1, fmin=1) # the other arguments are placeholders - not needed here
+        dataset = Dataset(data=X, samp_freq=1) # the other arguments are placeholders - not needed here
         dataset.zscore_data(by_trial=False)
         mean_data, std_data = dataset._get_mean_and_std()
 
@@ -1161,8 +1159,8 @@ def plot_avalanche_distribution(
     Parameters
     ----------
     input_data : mne.io.BaseRaw, mne.BaseEpochs or dict
-        Input data. A dict must contain 'data_array', 'samp_freq', 'fmin',
-        'fmax', 'channel_names', 'trial_labels' and 't_max'.
+        Input data. A dict must contain 'data_array', 'samp_freq',
+         'channel_names', 'trial_labels' and 't_max'.
     plot : {'size', 'duration'}
         Quantity to plot.
     threshold_method : {'fixed', 'std'}
@@ -1343,8 +1341,8 @@ def _plot_avalanche_distribution_deprecated(input_data: Union[mne.io.BaseRaw, mn
         dataset = Dataset(
             data=input_data["data_array"],
             samp_freq=input_data["samp_freq"],
-            fmin=input_data["fmin"],
-            fmax=input_data["fmax"],
+            #fmin=input_data["fmin"],
+            #fmax=input_data["fmax"],
             channel_names=input_data["channel_names"],
             # trial_ids=info["trial_ids"],
             trial_labels=input_data["trial_labels"],

@@ -18,10 +18,6 @@ class Dataset:
         Neural time series data of shape (n_trials, n_channels, n_time_points) or (n_channels, n_time_points).
     samp_freq : float
         Sampling frequency in Hz.
-    fmin : float
-        Lower frequency in Hz.
-    fmax : float
-        Higher frequency in Hz.
     channel_names : list of int or str, optional
         Channel names or indices. Defaults to None.
     trial_labels : list of int or str, optional
@@ -36,8 +32,8 @@ class Dataset:
             self,
             data: np.ndarray,
             samp_freq: float,
-            fmin: float,
-            fmax: float,
+            #fmin: float,
+            #fmax: float,
             channel_names: Optional[List[Union[int, str]]] = None,
             #trial_ids: Optional[List[int]] = None,
             trial_labels: Optional[List[Union[int, str]]] = None,
@@ -47,8 +43,8 @@ class Dataset:
     ):
         self.data = data.copy()  # shape: (n_trials, n_channels, n_time_points)
         self.samp_freq = samp_freq
-        self.fmin = fmin
-        self.fmax = fmax
+        #self.fmin = fmin
+        #self.fmax = fmax
         self.channel_names = channel_names
         self.trial_ids = list(range(self.data.shape[0])) # set by default
         self.trial_labels = trial_labels
@@ -264,29 +260,8 @@ class Dataset:
 
         return mean_signal, std_signal
 
+    """
     def _filter_data(self, s_freq, l_freq=None, h_freq=None, **kwargs):
-        """
-        Filters the dataset in-place using MNE's filter_data function.
-
-        Parameters
-        ----------
-        s_freq : float
-            Sampling frequency of the data in Hz.
-        l_freq : float, optional
-            Lower cutoff frequency for highpass/bandpass filtering in Hz.
-            If None, no highpass filter is applied. Defaults to None.
-        h_freq : float, optional
-            Upper cutoff frequency for lowpass/bandpass filtering in Hz.
-            If None, no lowpass filter is applied. Defaults to None.
-        **kwargs
-            Additional keyword arguments passed to `mne.filter.filter_data`.
-
-        Warning
-        ---------
-        The original data in `self.data` is overwritten with the filtered
-        values, and `self.l_freq` and `self.h_freq` are updated to reflect
-        the applied filter settings.
-        """
 
         data_to_filter = self.data
         filtered_data = mne.filter.filter_data(
@@ -302,6 +277,7 @@ class Dataset:
             self.fmax = l_freq
         if h_freq is not None:
             self.fmin = h_freq
+    """
 
     def get_binarized_data(self, threshold_method, threshold):
         """
@@ -422,8 +398,8 @@ def create_dataset_from_mne(mne_data: Union[mne.io.BaseRaw, mne.BaseEpochs], t_m
 
     dataset_out = Dataset(data=eeg_raw_data,
                            samp_freq=mne_data.info["sfreq"],
-                           fmax=mne_data.info["lowpass"],
-                           fmin=mne_data.info["highpass"],
+                           #fmax=mne_data.info["lowpass"],
+                           #fmin=mne_data.info["highpass"],
                            channel_names=ch_names,
                            #trial_ids=trial_ids,
                            t_max = t_max,
@@ -442,8 +418,8 @@ def _build_dataset(input_data: Union[mne.io.BaseRaw, mne.BaseEpochs, dict]):
     Parameters
     ----------
     input_data : mne.io.BaseRaw, mne.BaseEpochs or dict
-        A dict must contain the keys 'data_array', 'samp_freq', 'fmin',
-        'fmax', 'channel_names', 'trial_labels' and 't_max'.
+        A dict must contain the keys 'data_array', 'samp_freq',
+        'channel_names', 'trial_labels' and 't_max'.
 
     Returns
     -------
@@ -462,7 +438,7 @@ def _build_dataset(input_data: Union[mne.io.BaseRaw, mne.BaseEpochs, dict]):
         return create_dataset_from_mne(input_data)
 
     if isinstance(input_data, dict):
-        required = {"data_array", "samp_freq", "fmin", "fmax",
+        required = {"data_array", "samp_freq",
                     "channel_names", "trial_labels", "t_max"}
         # Report ALL missing keys at once instead of failing on the first.
         missing = required - input_data.keys()
@@ -474,8 +450,8 @@ def _build_dataset(input_data: Union[mne.io.BaseRaw, mne.BaseEpochs, dict]):
         return Dataset(
             data=input_data["data_array"],
             samp_freq=input_data["samp_freq"],
-            fmin=input_data["fmin"],
-            fmax=input_data["fmax"],
+            #fmin=input_data["fmin"],
+            #fmax=input_data["fmax"],
             channel_names=input_data["channel_names"],
             trial_labels=input_data["trial_labels"],
             t_max=input_data["t_max"],
@@ -497,8 +473,7 @@ def plot_amplitude_distribution(data: Union[mne.io.BaseRaw, mne.BaseEpochs, dict
     Parameters
     ----------
     data : mne.io.BaseRaw, mne.BaseEpochs or dict
-        A dict must contain the keys 'data_array', 'samp_freq', 'fmin',
-        'fmax', 'channel_names', 'trial_labels' and 't_max'.
+        A dict must contain the keys 'data_array', 'samp_freq', 'channel_names', 'trial_labels' and 't_max'.
 
     Notes
     -----
