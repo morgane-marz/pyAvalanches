@@ -82,8 +82,6 @@ _DATASET_EXCLUDED = frozenset({"channel_names"})
 
 #: Maps internal dataset keys to report column names, in output order.
 _DATASET_RENAME = {
-    "fmin":          "Highpass",
-    "fmax":          "Lowpass",
     "n_channels":    "Number of Channels/ROIs",
     "n_time_points": "Time Points",
     "n_trials":      "Number of Trials",
@@ -182,7 +180,7 @@ class Subject:
         If a Dataset object is provided at initialization, it is
         converted to a dictionary containing the following keys:
         'n_channels', 'n_time_points', 'n_trials', 'conditions',
-        'channel_names', 'samp_freq', 'fmax', 'fmin'.
+        'channel_names', 'samp_freq'
         Defaults to None.
     """
     subject_id: Union[int, str]
@@ -210,8 +208,6 @@ class Subject:
                     dataset_info['conditions'] = None
                 dataset_info['channel_names'] = dataset_obj.channel_names
                 dataset_info['samp_freq'] = dataset_obj.samp_freq
-                dataset_info['fmax'] = dataset_obj.fmax
-                dataset_info['fmin'] = dataset_obj.fmin
 
             elif isinstance(self.dataset, dict):
                 dataset_info = {}
@@ -224,8 +220,6 @@ class Subject:
                     dataset_info['conditions'] = None
                 dataset_info['channel_names'] = self.dataset["channel_names"]
                 dataset_info['samp_freq'] = self.dataset["samp_freq"]
-                dataset_info['fmax'] = self.dataset["fmax"]
-                dataset_info['fmin'] = self.dataset["fmin"]
 
             else:
                 raise TypeError("Dataset input must be Raw or Epochs object or dict")
