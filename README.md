@@ -6,8 +6,7 @@
 <p align="center">
   <!-- TODO: Add badges. Replace `your-username/pyAvalanches` with your actual repo path. -->
   <a href="https://test.pypi.org/project/pyAvalanches/"><img src="https://img.shields.io/pypi/v/pyAvalanches.svg?pypiBaseUrl=https://test.pypi.org&amp;label=TestPyPI" alt="TestPyPI"></a>
-  <a href="https://github.com/your-username/pyAvalanches/actions"><img src="https://github.com/your-username/pyAvalanches/actions/workflows/ci.yml/badge.svg" alt="Build Status"></a>
-  <a href="https://your-docs-url.readthedocs.io/"><img src="https://readthedocs.org/projects/your-docs-url/badge/?version=latest" alt="Documentation Status"></a>
+  <a href="https://pyavalanches.readthedocs.io/en/latest/"><img src="https://readthedocs.org/projects/pyavalanches/badge/?version=latest" alt="Documentation Status"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSD_3--Clause-blue.svg" alt="License"></a>
 </p>
 
@@ -145,7 +144,7 @@ print("Group report saved to ./results/group_openneuro_report.html")
 
 For a detailed guide, tutorials, and a full API reference, please see our documentation at:
 
-[**https://pyavalanches.readthedocs.io/en/latest/**](https://your-docs-url.readthedocs.io)
+[**https://pyavalanches.readthedocs.io/en/latest/**](https://pyavalanches.readthedocs.io/en/latest/)
 
 <!-- TODO: Create documentation (e.g., using Sphinx/Read the Docs) and replace the URL. -->
 
