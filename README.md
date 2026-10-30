@@ -47,6 +47,12 @@ You can install `pyAvalanches` directly from TestPyPI:
 pip install -i https://test.pypi.org/simple/ pyAvalanches
 ```
 
+If you encounter trouble with uninstalled dependencies try:
+
+```bash
+pip install --extra-index-url https://test.pypi.org/simple/ pyAvalanches
+```
+
 ## 🚀 Quick Start
 
 Here's a simple example of how to detect avalanches and compute Avalanche Transition Matrices (ATM) from sample data.
@@ -70,8 +76,6 @@ data = np.random.randn(n_trials, n_channels, n_timepoints)
 input_dict = {
     "data_array": data,
     "samp_freq": 256.0,
-    "fmin": 1.0,
-    "fmax": 40.0,
     "channel_names": ["Fp1", "Fp2", "C3", "C4"],
     "trial_labels": ["left", "right", "left"],
     "t_max": None
