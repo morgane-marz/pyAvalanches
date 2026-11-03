@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from tabnanny import verbose
 from typing import Dict, List, Any, Optional, Union
 import numpy as np
 import os
@@ -261,7 +262,8 @@ class ATMPipeline(BaseEstimator, TransformerMixin):
         self,
         method: str,
         symm: bool,
-        trial_label: int = None # this is to select just a subset of trials based on their label (motor imagery, rest...)
+        trial_label: int = None, # this is to select just a subset of trials based on their label (motor imagery, rest...)
+        verbose = False
     ):
         allowed_methods = {"ws", "standard"}
 
@@ -273,6 +275,7 @@ class ATMPipeline(BaseEstimator, TransformerMixin):
         self.method = method
         self.symm = symm
         self.trial_label = trial_label
+        self.verbose = verbose
 
     def __repr__(self):
         return (
@@ -280,6 +283,10 @@ class ATMPipeline(BaseEstimator, TransformerMixin):
             f"symm={self.symm})"
         )
 
+    def _log(self, msg, level=1):
+        """Print `msg` if self.verbose >= level."""
+        if self.verbose >= level:
+            print(msg)
 
     def _compute_atm_standard(self, bin_data: np.ndarray):
         """
@@ -450,12 +457,24 @@ class ATMPipeline(BaseEstimator, TransformerMixin):
             trial_indexes = avalanches.trial_indexes
 
         for trial_idx in trial_indexes: # number of trials
-            print(f"Computing trial {trial_idx}...")
+            self._log(f"Computing trial {trial_idx}...")
             trial_aval_data = avalanches.get_trial_data(trial_idx)
             trial_ATM_list = []
 
             if trial_aval_data.avalanche_count == 0:
-                print("WARNING: no avalanches in this trial, no ATM was computed.")
+                print(f"WARNING: no avalanches in trial {trial_idx}, saving all-zero ATM.")
+
+                n_channels = trial_aval_data.avalanches_mat[0].shape[0]
+                mean_trial_atm = np.zeros((n_channels, n_channels))
+
+                trial_atm = ATMObj(trial_id=trial_idx, avalanche_transition_matrices=trial_ATM_list, method=self.method,
+                                   symmetric=self.symm, mean_atm=mean_trial_atm)
+
+                trial_atm.trial_label = trial_aval_data.trial_label
+                if self.method == 'ws':
+                    trial_atm.symmetric = False
+
+                list_results.append(trial_atm)
 
             else:
                 for aval_idx in range(trial_aval_data.avalanche_count):  # number of avalanches in that specific trial
@@ -483,7 +502,7 @@ class ATMPipeline(BaseEstimator, TransformerMixin):
                 trial_atm.trial_label = trial_aval_data.trial_label
 
                 if self.method == 'ws':
-                    print('Computing weighted mean ATM')
+                    self._log('Computing weighted mean ATM')
 
                     trial_atm.mean_atm = self._compute_stochastic_mean_atm(trial_atm, trial_aval_data)
                     trial_atm.symmetric = False
@@ -493,7 +512,7 @@ class ATMPipeline(BaseEstimator, TransformerMixin):
             # qui finisce l'else
 
         results = TrialATM(list_results)
-        print('Done')
+        self._log('Done')
         return results
 
     def fit(self, X, y=None):

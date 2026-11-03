@@ -349,7 +349,8 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
             min_duration: int = 1,
             min_size: int = 1,
             bins: int = 1,
-            trial_label: int = None
+            trial_label: int = None,
+            verbose = False
             # z_score_by_trial: bool,
             # this is to select just a subset of trials based on their label (motor imagery, rest...)
     ):
@@ -374,6 +375,7 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
         self.min_size = min_size
         self.trial_label = trial_label
         self.bins = bins
+        self.verbose = verbose
 
     def __repr__(self):
         return (
@@ -381,6 +383,11 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
             f"min_duration={self.min_duration}, "
             f"min_size={self.min_size})"
         )
+
+    def _log(self, msg, level=1):
+        """Print `msg` if self.verbose >= level."""
+        if self.verbose >= level:
+            print(msg)
 
     def _threshold_data_fixed(self, trial_data: np.ndarray):
         """
@@ -485,10 +492,14 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
 
         # check if there is at least one activation in the binarized signal
         if not np.any(bin_data):  # check if all elements are zero -> no signal above threshold gives a warning
-            print(f"WARNING: No activations above threshold found in this trial")
+            # print(f"WARNING: No activations above threshold found in this trial")
             # warnings.warn(f"No activations above threshold found in this trial")
 
+            n_channels = bin_data.shape[0]
+            empty_mat = np.zeros((n_channels, 1))
             matrices = []
+            matrices.append(empty_mat)
+
             patterns = []
             patterns_temp = []
             sizes = []
@@ -550,7 +561,11 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
 
         # check if at least one avalanche is found
         if len(matrices) == 0:  # no avalanche was above the min duration and size
-            print(f"No avalanches satisfied the minimum duration and size constraint for this trial")
+            #print(f"No avalanches satisfied the minimum duration and size constraint for this trial")
+
+            n_channels = bin_data.shape[0]
+            empty_mat = np.zeros((n_channels, 1))
+            matrices.append(empty_mat)
 
             flexibility = 0
             avalanche_count = 0
@@ -617,7 +632,7 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
         """
 
         dataset = _build_dataset(data)
-        print("Dataset created")
+        self._log("Dataset created")
 
         #dataset.zscore_data(by_trial=self.z_score_by_trial)
 
@@ -648,11 +663,11 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
 
         # iterate through the trials to compute the avalanches
         for trial_idx in trial_indexes:
-            print(f"Computing trial {trial_idx}...")
+            self._log(f"Computing trial {trial_idx}...")
             #trial_data = dataset.data[trial_idx]
             trial_data = dataset.data_zscored[trial_idx]
             # binarize data
-            print("Binarizing data...")
+            self._log("Binarizing data...")
             if self.threshold_method == 'fixed':
                 bin_data = self._threshold_data_fixed(trial_data)
             elif self.threshold_method == 'std':
@@ -660,13 +675,15 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
                 bin_data = self._threshold_data_std(trial_data, mean, std)
             else:
                 raise ValueError(
-                    f"No valid thresholding method was given'"
+                    f"No valid thresholding method was given. Must be 'fixed' or 'std'."
                 )
 
             # compute avalanches
-            print("Computing avalanches...")
+            self._log("Computing avalanches...")
             matrices, sizes, durations, patterns, patterns_temporal, avalanche_bounds, flexibility, avalanche_count = self._compute_avalanches(
                 bin_data)
+            if avalanche_count == 0:
+                print(f"WARNING: No avalanches were found or satisfied the minimum duration and size constraint for trial {trial_idx}")
 
             # store results for each trial
             trial_result = AvalancheObj(#trial_id=trial_idx,
@@ -688,7 +705,7 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
 
             list_results.append(trial_result)
 
-            print('Done.')
+            self._log('Done.')
 
         # store all trials results
         results = TrialAvalanches(list_results)
@@ -744,12 +761,12 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
 
         # iterate through the trials to compute the avalanches
         for trial_idx in trial_indexes:
-            print(f"Computing trial {trial_idx}...")
+            self._log(f"Computing trial {trial_idx}...")
             trial_data_orig = X[trial_idx]
             # z-scoring
             trial_data = zscore(trial_data_orig)
             # time series binarization with the chosen method
-            print("Binarizing data...")
+            self._log("Binarizing data...")
             if self.threshold_method == 'fixed':
                 bin_data = self._threshold_data_fixed(trial_data)
             elif self.threshold_method == 'std':
@@ -760,7 +777,7 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
                 )
 
             # compute avalanches in the standard way
-            print("Computing avalanches...")
+            self._log("Computing avalanches...")
             matrices, sizes, durations, patterns, patterns_temporal, avalanche_bounds, flexibility, avalanche_count = self._compute_avalanches(
                 bin_data)
 
@@ -777,7 +794,7 @@ class AvalanchePipeline(BaseEstimator, TransformerMixin):
                                         avalanche_count=avalanche_count)
 
             list_results.append(trial_result)
-            print('Done.')
+            self._log('Done.')
 
         # store results of all trials
         results = TrialAvalanches(list_results)
