@@ -66,6 +66,20 @@ def make_aval_trial(trial_id, matrices, durations=None, label=None):
     t.trial_label     = label
     return t
 
+def make_empty_aval_trial(trial_id, matrices=None, durations=None, label=None):
+    """
+    Mock of a single AvalancheObj.
+    avalanche_count is derived from the number of matrices, so passing an
+    empty list gives a trial with no avalanches.
+    """
+    t = MagicMock(spec=AvalancheObj)
+    t.trial_id        = trial_id
+    t.avalanches_mat  = [np.zeros((10,1))]
+    t.durations       = []
+    t.avalanche_count = 0
+    t.trial_label     = label
+    return t
+
 def make_avalanches(trials):
     """
     Mock of a TrialAvalanches object.
@@ -409,37 +423,38 @@ class TestProcess:
             self, standard_pipeline, capsys
     ):
         """capsys captures stdout so we can check the user-facing message."""
-        avalanches = make_avalanches([make_aval_trial(0, [])])
+        avalanches = make_avalanches([make_empty_aval_trial(0)])
 
         standard_pipeline.process(avalanches)
 
         assert "WARNING" in capsys.readouterr().out
 
-    def test_empty_trial_skipped_but_others_still_processed(
+    def test_all_trials_are_processed_with_no_avalanches(
             self, standard_pipeline
     ):
         """Trial 1 is empty; trials 0 and 2 must still produce results."""
         avalanches = make_avalanches([
             make_aval_trial(0, [simple_matrix()]),
-            make_aval_trial(1, []),  # empty
+            make_empty_aval_trial(1),  # empty
             make_aval_trial(2, [simple_matrix()]),
         ])
 
         results = standard_pipeline.process(avalanches)
 
-        assert results.trial_count == 2
-        assert results.trial_indexes == [0,2]
+        assert results.trial_count == 3
+        assert results.trial_indexes == [0,1,2]
 
-    def test_all_trials_empty_gives_empty_trial_atm(self, standard_pipeline):
+    def test_all_trials_empty_gives_atm_zero(self, standard_pipeline):
         """TrialATM must still be constructed, but with an empty list."""
         avalanches = make_avalanches([
-            make_aval_trial(0, []),
-            make_aval_trial(1, []),
+            make_empty_aval_trial(0),
+            make_empty_aval_trial(1),
         ])
 
         results = standard_pipeline.process(avalanches)
-        assert results.trial_count == 0
-        assert results.trial_indexes == []
+        assert results.trial_count == 2
+        assert not np.any(results.trials[0].mean_atm)
+        assert not np.any(results.trials[1].mean_atm)
 
 
 

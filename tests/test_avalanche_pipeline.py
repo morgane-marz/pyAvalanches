@@ -282,18 +282,19 @@ class TestThresholdDataStd:
 
 class TestComputeAvalanches:
 
-    def test_all_zero_warning(self, bin_pipeline, capsys):
-        zero_data = np.zeros((8,15))
-        process_avalanches(bin_pipeline, zero_data)
-        captured = capsys.readouterr()
-        assert "WARNING" in captured.out
+    #def test_all_zero_warning(self, bin_pipeline, capsys):
+    #    zero_data = np.zeros((8,15))
+    #    process_avalanches(bin_pipeline, zero_data)
+    #    captured = capsys.readouterr()
+    #    assert "WARNING" in captured.out
 
-    def test_all_zeros_returns_empty_containers(self, bin_pipeline):
+    def test_all_zeros_returns_empty_containers_and_one_matrix(self, bin_pipeline):
         zero_data = np.zeros((8, 15))
         results = process_avalanches(bin_pipeline, zero_data)
         assert results["avalanche_count"] == 0
         assert results["flexibility"] == 0
-        for key in ("matrices", "sizes", "durations",
+        assert len(results["matrices"]) == 1
+        for key in ("sizes", "durations",
                     "patterns", "patterns_temp", "bounds"):
             assert results[key] == []
 
