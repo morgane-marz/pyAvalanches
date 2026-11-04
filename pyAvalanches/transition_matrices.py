@@ -493,8 +493,19 @@ class ATMPipeline(BaseEstimator, TransformerMixin):
 
                 # the mean doesn't have to take into account 0 values
                 trial_ATM_array = np.stack(trial_ATM_list, axis=2)
-                mean_trial_atm = np.sum(trial_ATM_array, axis=2) / np.sum(trial_ATM_array != 0, axis=2)
-                mean_trial_atm[np.isnan(mean_trial_atm)] = 0
+                #mean_trial_atm = np.sum(trial_ATM_array, axis=2) / np.sum(trial_ATM_array != 0, axis=2)
+                #mean_trial_atm[np.isnan(mean_trial_atm)] = 0
+
+                sums = np.sum(trial_ATM_array, axis=2)
+                counts = np.count_nonzero(trial_ATM_array, axis=2)
+
+                # mean ignoring zeros; positions with no non-zero values stay 0
+                mean_trial_atm = np.divide(
+                    sums, counts,
+                    out=np.zeros_like(sums, dtype=float),
+                    where=counts != 0
+                )
+
 
                 trial_atm = ATMObj(trial_id=trial_idx, avalanche_transition_matrices=trial_ATM_list, method=self.method,
                                    symmetric=self.symm, mean_atm=mean_trial_atm)
